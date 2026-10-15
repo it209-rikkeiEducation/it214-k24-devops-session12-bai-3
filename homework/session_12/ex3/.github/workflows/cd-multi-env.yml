@@ -1,0 +1,40 @@
+name: CD Multi Environment
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://staging.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Staging Deployment
+        run: |
+          echo "Deploying to Staging environment..."
+          echo "Application successfully deployed to https://staging.example.com"
+
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://api.prod.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Production Deployment
+        run: |
+          echo "Deploying to Production environment..."
+          echo "Application successfully deployed to https://api.prod.example.com"
